@@ -1,9 +1,20 @@
-
-
 """
 Author: James Michael Brown
 Date: 09/24/2020
-Note: Gabor edge detection code adapted for Pythonist, Python 3.6
+Note: Gabor edge detection code adapted for Pythonista, Python 3.6.
+
+
+"Pythonista is a complete development environment for writing Python™ 
+scripts on your iPad or iPhone. Lots of examples are included — from games 
+and animations to plotting, image manipulation, custom user interfaces, 
+and automation scripts.
+
+In addition to the powerful standard library, Pythonista provides extensive
+support for interacting with native iOS features, like contacts, reminders,
+photos, location data, and more."
+
+http://omz-software.com/pythonista/
+
 """
 
 # # # Import Modules
@@ -84,27 +95,8 @@ for i in range(n):
 	plt.show()
 plt.close()
 
-def convolve3d(img, kernel):
-    # calc the size of the array of submatracies
-    sub_shape = tuple(np.subtract(img.shape, kernel.shape) + 1)
-    # alias for the function
-    strd = np.lib.stride_tricks.as_strided
-    # make an array of submatracies
-    submatrices = strd(img,kernel.shape + sub_shape,img.strides * 2)
-    # sum the submatraces and kernel
-    convolved_matrix = np.einsum('hij,hijklm->klm', kernel, submatrices)
-    return convolved_matrix
 
-def conv(image, kernel, bias):
-    m, n = kernel.shape
-    if (m == n):
-        y, x = image.shape
-        y = y - m + 1
-        x = x - m + 1
-        new_image = np.zeros((y,x))
-        for i in range(y):
-            for j in range(x):
-                new_image[i][j] = np.sum(image[i:i+m, j:j+m]*kernel) + bias
+age[i][j] = np.sum(image[i:i+m, j:j+m]*kernel) + bias
     return new_image
 
 all_assets = photos.get_assets()
@@ -134,13 +126,3 @@ for i in range(len(sinFilterBank)):
 	z = np.fft.irfft2(np.fft.rfft2(sinGabor) * np.fft.rfft2(y, sinGabor.shape))
 	plt.imshow(z, cmap="gray")
 	plt.show()
-
-th = 128
-im_bool = y > th
-#print(im_bool)
-im_bin_128 = (y > th) * 255
-im_bin_64 = (y > 64) * 255
-im_bin_192 = (y > 192) * 255
-
-im_bin = np.concatenate((im_bin_64, im_bin_128, im_bin_192), axis=1)
-Image.fromarray(np.uint8(im_bin)).save('binarization.png')
