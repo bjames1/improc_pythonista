@@ -3,7 +3,7 @@
 """
 Author: James Michael Brown
 Date: 09/24/2020
-Note: Threshold image
+Note: Threshold image adapted for Pythonista, Python 3.6.
 """
 
 # # # Import Modules
